@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mitras;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -12,9 +13,10 @@ class MainController extends Controller
 
     }
 
-    public function index()
+    public function show($id)
     {
         //mysurvei logic here
-        return view('survey.mysurvey');
+        $mitra = Mitras::where('email', $id)->first();
+        return view('survey.mysurvey', compact('mitra'));
     }
 }
