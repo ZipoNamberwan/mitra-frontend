@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
+
+Route::get('/register', [App\Http\Controllers\UserController::class, 'register']);
