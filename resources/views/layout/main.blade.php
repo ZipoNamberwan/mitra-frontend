@@ -172,7 +172,12 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <div class="media align-items-center">
-                                        <!-- Informasi akun  dihapus di sini  -->
+                                        <span class="avatar avatar-sm rounded-circle">
+                                            <img alt="" @if(Auth::user()->avatar) src="{{asset('storage/'.Auth::user()->avatar)}}" @else src="" @endif>
+                                        </span>
+                                        <div class="media-body ml-2 d-none d-lg-block">
+                                            <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
+                                        </div>
                                     </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -184,7 +189,14 @@
                                         <span>Profile</span>
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    <!-- Logout di hapus-->
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        <i class="ni ni-user-run"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </div>
                             </li>
                         </ul>
