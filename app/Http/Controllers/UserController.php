@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use \PhpOffice\PhpSpreadsheet\Spreadsheet;
-use \PhpOffice\PhpSpreadsheet\IOFactory;
-use \PhpOffice\PhpSpreadsheet\Style\Alignment;
-use \PhpOffice\PhpSpreadsheet\Style\Border;
 use App\Http\Controllers\Controller;
 use App\Models\Mitras;
 use App\Models\Educations;
@@ -24,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('mitra.mitra-index');
+        return view('survey.register');
     }
 
     /**
@@ -34,12 +30,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('mitra.mitra-create', [
+        return view('survey.register', [
             'educations' => Educations::all(),
             'subdistricts' => Subdistricts::all(),
             'code' => sprintf("%05s", count(Mitras::withTrashed()->get()) + 1),
         ]);
     }
+
     public function getVillage($id)
     {
         return json_encode(Villages::where('subdistrict', $id)->get());
@@ -97,6 +94,7 @@ class UserController extends Controller
             'mitra_id' => $mitra->email
         ]);
 
-        return redirect('/mitras')->with('success-create', 'Data Mitra telah direkam!');
+        return redirect('/')->with('success-create', 'Data Mitra telah direkam!');
     }
+
 }

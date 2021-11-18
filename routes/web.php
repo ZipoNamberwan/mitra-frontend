@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
 
-Route::get('/register', [App\Http\Controllers\UserController::class, 'register']);
+Route::get('/register', [App\Http\Controllers\UserController::class, 'create']);
+
+Route::get('/register/village/{id}', [App\Http\Controllers\UserController::class, 'getVillage']);
+
+Route::resources([
+    'create' => UserController::class,
+]);

@@ -13,7 +13,7 @@
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="ni ni-app"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{{ url('/mitras') }}">Login</a></li>
+                                <li class="breadcrumb-item"><a href="{{ url('/') }}">login</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Register</li>
                             </ol>
                         </nav>
@@ -30,12 +30,12 @@
                     <div class="card">
                         <!-- Card header -->
                         <div class="card-header">
-                            <h3 class="mb-2">Tambah Biodata</h3>
+                            <h3 class="mb-2">Isi Biodata</h3>
                             <p class="mb-0"><small>*Wajib Diisi</small></p>
                         </div>
                         <!-- Card body -->
                         <div class="card-body">
-                            <form method="POST" action="/mitras" enctype="multipart/form-data" autocomplete="off">
+                            <form method="POST" action="/create" enctype="multipart/form-data" autocomplete="off">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
@@ -47,17 +47,6 @@
                                                 id="validationCustom03" placeholder="email@gmail.com"
                                                 value="{{ @old('email') }}">
                                             @error('email')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-14 mb-3">
-                                            <label class="form-control-label" for="phone">Kata Sandi*</label>
-                                            <input type="text" name="pass"
-                                                class="form-control @error('pass') is-invalid @enderror"
-                                                id="validationCustom03" value="{{ @old('pass') }}">
-                                            @error('pass')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -108,7 +97,16 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        
+                                        <div class="col-md-14 mb-3">
+                                            <label class="form-control-label" for="">Foto</label>
+                                            <img class="img-preview img-fluid mb-3 col-sm-5">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="photo" name="photo"
+                                                    lang="en" onchange="previewPhoto()" accept="image/*">
+                                                <label class="custom-file-label" for="customFileLang" id="photolabel">Pilih
+                                                    Gambar</label>
+                                            </div>
+                                        </div>
                                         <div class="col-md-14 mb-3">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleDatepicker">Tanggal
@@ -145,24 +143,14 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="col-md-14 mb-3">
-                                            <label class="form-control-label" for="">Foto</label>
-                                            <img class="img-preview img-fluid mb-3 col-sm-5">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="photo" name="photo"
-                                                    lang="en" onchange="previewPhoto()" accept="image/*">
-                                                <label class="custom-file-label" for="customFileLang" id="photolabel">Pilih
-                                                    Gambar</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-14 mb-3">
                                             <label class="form-control-label">Pendidikan*</label>
                                             <select name="education" class="form-control" data-toggle="select">
                                                 <option value="0" disabled selected>Pilih Pendidikan terakhir</option>
-                                                {{-- @foreach ($educations as $education)
+                                                @foreach ($educations as $education)
                                                     <option value="{{ $education->id }}"
                                                         {{ old('education') == $education->id ? 'selected' : '' }}>
                                                         {{ $education->name }}</option>
-                                                @endforeach --}}
+                                                @endforeach
                                             </select>
                                             @error('education')
                                                 <div class="text-valid">
@@ -197,11 +185,11 @@
                                             <select id="subdistrict" name="subdistrict" class="form-control"
                                                 data-toggle="select" name="subdistrict" required>
                                                 <option value="0" disabled selected> -- Pilih Kecamatan -- </option>
-                                                {{-- @foreach ($subdistricts as $subdistrict)
+                                                @foreach ($subdistricts as $subdistrict)
                                                     <option value="{{ $subdistrict->id }}"
                                                         {{ old('subdistrict') == $subdistrict->id ? 'selected' : '' }}>
                                                         {{ $subdistrict->name }}</option>
-                                                @endforeach --}}
+                                                @endforeach
                                             </select>
                                         </div>
                                         @error('subdistrict')
@@ -267,7 +255,7 @@
             $('#village').append(`<option value="0" disabled selected>Processing...</option>`);
             $.ajax({
                 type: 'GET',
-                url: '/mitras/village/' + id,
+                url: '/register/village/' + id,
                 success: function(response) {
                     var response = JSON.parse(response);
                     $('#village').empty();
