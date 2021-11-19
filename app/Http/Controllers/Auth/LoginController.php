@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Educations;
+use App\Models\Mitras;
+use App\Models\PhoneNumbers;
+use App\Models\Subdistricts;
 use App\Models\User;
+use App\Models\Villages;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -56,11 +62,100 @@ class LoginController extends Controller
             Auth::login($user, true);
             return redirect('/home');
         } else {
-            return redirect('/reg/' . $user_google->email . '/' . $user_google->name);
+            $key = 'hQQ3cyzRp3obvAnUa29woJ6MchjHawPg'; // 32 chars
+            $iv = '8tgsqR86OSSUBC5t'; // 16 chars
+            $method = 'aes-256-cbc';
+
+            return redirect('/reg/' . openssl_encrypt($user_google->email, $method, $key, 0, $iv) . '/' . openssl_encrypt($user_google->name, $method, $key, 0, $iv));
         }
     }
+
+    public function showRegistrationForm(Request $request)
+    {
+        $email = $request->email;
+        $name = $request->name;
+
+        $key = 'hQQ3cyzRp3obvAnUa29woJ6MchjHawPg'; // 32 chars
+        $iv = '8tgsqR86OSSUBC5t'; // 16 chars
+        $method = 'aes-256-cbc';
+
+        return view('survey.register', [
+            'email' => openssl_decrypt($email, $method, $key, 0, $iv),
+            'name' => openssl_decrypt($name, $method, $key, 0, $iv),
+            'educations' => Educations::all(),
+            'subdistricts' => Subdistricts::all()
+        ]);
+    }
+
+    public function getVillage($id)
+    {
+        return json_encode(Villages::where('subdistrict', $id)->get());
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function register(Request $request)
     {
-        
+
+        $this->validate($request, [
+            'email' => 'required|email|unique:mitras,email|unique:users,email',
+            'phone' => 'required',
+            'name' => 'required',
+            'sex' => 'required',
+            'education' => 'required',
+            'birthdate' => 'required',
+            'profession' => 'required',
+            'address' => 'required',
+            'village' => 'required',
+            'subdistrict' => 'required'
+        ]);
+
+        $path = '';
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $path = $image->store('images', 'public');
+        }
+        $mitracounter = DB::table('counter')->where('id', 'mitras_counter')->first()->value + 1;
+        DB::table('counter')->where('id', 'mitras_counter')
+            ->update(['value' => $mitracounter]);
+        $mitra = Mitras::create([
+            'email' => $request->email,
+            'code' => sprintf("%05s", $mitracounter),
+            'name' => $request->name,
+            'nickname' => $request->nickname,
+            'sex' => $request->sex,
+            'photo' => $path,
+            'education' => $request->education,
+            'birthdate' => $request->birthdate,
+            'profession' => $request->profession,
+            'address' => $request->address,
+            'village' => $request->village,
+            'subdistrict' => $request->subdistrict
+        ]);
+
+        PhoneNumbers::create([
+            'phone' => $request->phone,
+            'is_main' => true,
+            'mitra_id' => $mitra->email
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if ($user == null) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => '',
+                'avatar' => $mitra->photo
+            ]);
+        }
+
+        Auth::login($user, true);
+
+        return redirect('/')->with('success-create', 'Data Mitra telah direkam!');
     }
 }

@@ -15,23 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Auth::routes();
 
 Route::get('/auth/redirect', [App\Http\Controllers\Auth\LoginController::class, 'redirect']);
 Route::get('/auth/callback', [App\Http\Controllers\Auth\LoginController::class, 'callback']);
-Route::get('/reg/{email}/{name}', [App\Http\Controllers\Auth\LoginController::class, 'register']);
+Route::get('/reg/{email}/{name}', [App\Http\Controllers\Auth\LoginController::class, 'showRegistrationForm']);
+Route::get('/register/village/{id}', [App\Http\Controllers\Auth\LoginController::class, 'getVillage']);
+Route::post('/reg', [App\Http\Controllers\Auth\LoginController::class, 'register']);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
-Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
-
-Route::get('/register', [App\Http\Controllers\UserController::class, 'create']);
-
-Route::get('/register/village/{id}', [App\Http\Controllers\UserController::class, 'getVillage']);
-
-Route::resources([
-    'create' => UserController::class,
-]);
