@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,3 +26,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
+Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
+
+Route::get('/register', [App\Http\Controllers\UserController::class, 'create']);
+
+Route::get('/register/village/{id}', [App\Http\Controllers\UserController::class, 'getVillage']);
+
+Route::resources([
+    'create' => UserController::class,
+]);
