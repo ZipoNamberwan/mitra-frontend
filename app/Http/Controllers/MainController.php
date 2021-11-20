@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mitras;
+use App\Models\Statuses;
 use App\Models\Surveys;
 use DateTime;
 use Illuminate\Http\Request;
@@ -16,10 +17,15 @@ class MainController extends Controller
 
     }
 
-    public function showasses($id)
+    public function showasses()
     {
         
         return view('survey.show-assessment');
+    }
+
+    public function showstatusses()
+    {
+        return view('survey.show-statusses');
     }
 
 
@@ -61,16 +67,9 @@ class MainController extends Controller
 
     public function data(Request $request)
     {
-        if ($request->id == 0) {
-            return json_encode([
-                "draw" => $request->draw,
-                "recordsTotal" => 0,
-                "recordsFiltered" => 0,
-                "data" => []
-            ]);
-        } else {
-            $survey = Surveys::find($request->id);
-            $mitras = $survey->mitras;
+       
+            $survey = Mitras::find('adams.leo@example.org');
+            $mitras = $survey->surveys;
             $recordsTotal = count($mitras);
             $recordsFiltered = $mitras->where('name', 'like', '%' . $request->search["value"] . '%')->count();
 
@@ -111,10 +110,18 @@ class MainController extends Controller
                 $mitraData["index"] = $i;
                 $mitraData["name"] = $mitra->name;
                 $mitraData["email"] = $mitra->email;
-                $mitraData["rating"] = $mitra->avgrating();
+                $mitraData["rating"] = $survey->avgrating();
                 $surveys = Surveys::find($mitra->pivot->survey_id);
                 $mitraData["survey_id"] = $surveys->name;
-                $mitraData["id"] = $mitra->email;
+                $status = Statuses::find($mitra->pivot->status_id);
+                $mitraData["status_id"] = $status->name;
+                $mitraData["status_color"] = 'secondary';
+                if ($status->id == 2) {
+                    $mitraData["status_color"] = 'success';
+                } else if ($status->id == 3) {
+                    $mitraData["status_color"] = 'danger';
+                }
+                $mitraData["id"] = 'adams.leo@example.org';
                 $mitrasArray[] = $mitraData;
                 $i++;
             }
@@ -125,5 +132,5 @@ class MainController extends Controller
                 "data" => $mitrasArray
             ]);
         }
-    }
+    
 }

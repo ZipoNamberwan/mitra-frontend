@@ -91,41 +91,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-6">
-                                <h3 class="mb-0 mt-2">NilaiKu</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12" id="row-table">
-                                <div class="table-responsive">
-                                    <table class="table" id="datatable-id" width="100%">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Nama Survei</th>
-                                                <th>Assessment</th>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 @endsection

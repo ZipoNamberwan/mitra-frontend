@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/mysurvey-data', [App\Http\Controllers\MainController::class, 'data']);
-Route::get('/assess/{id}', [App\Http\Controllers\MainController::class, 'showasses']);
+Route::get('/assess', [App\Http\Controllers\MainController::class, 'showasses']);
+Route::get('/statusdaftar', [App\Http\Controllers\MainController::class, 'showstatusses']);
 
 Route::resources(['dash'=> MainController::class]);

@@ -19,7 +19,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="ni ni-app"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Nilai Mitra</li>
+                            <li class="breadcrumb-item active" aria-current="page"> Status Mitra</li>
                         </ol>
                     </nav>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Nilai Mitra</h3>
+                            <h3 class="mb-0">Status Mitra</h3>
                         </div>
                         
                     </div>
@@ -68,8 +68,8 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>#</th>
-                                <th>Nama Survey</th>
-                                <th>Assessment</th>
+                                <th>Email Mitra</th>
+                                <th>Status Mitra</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -101,25 +101,25 @@
         },
         "columns": [{
                 "responsivePriority": 8,
-                "width": "2.5%",
+                "width": "2,5%",
                 "orderable": false,
                 "data": "index",
             }, 
             {
                 "responsivePriority": 1,
-                "width": "8%",
-                "data": "name",
+                "width": "2,5%",
+                "data": "id",
             },
             {
                 "responsivePriority": 1,
-                "width": "5%",
-                "data": "rating",
-            },
-            {
-                "responsivePriority": 7,
-                "width": "7%",
-                "orderable": false,
-                "data": "id"
+                "width": "2,5%",
+                "data": "status_id",
+                "render": function(data, type, row) {
+                    if (type == 'display') {
+                        return '<span class="badge badge-' + row.status_color + '">' + data + '</span>';
+                    }
+                    return data;
+                }
             }
         ],
         "language": {

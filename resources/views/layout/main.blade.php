@@ -60,11 +60,11 @@
                                  <i class="fas fa-home text-primary"></i>
                                  <span class=class="nav-link @if(str_contains(url()->current(), url('surveys'))) active @endif" href="#navbar-dash" data-toggle="collapse" role="button" aria-expanded="@if(str_contains(url()->current(), url('surveys'))) true @else false @endif" aria-controls="navbar-forms">My Survey</span>
                              </a> --}}
-                             <a class="nav-link @if(str_contains(url()->current(), url('/statuspendaftar')) || str_contains(url()->current(), url('/assess'))) active @endif" href="#navbar-dash" data-toggle="collapse" role="button" aria-expanded="@if(str_contains(url()->current(), url('/mitras')) || str_contains(url()->current(), url('/recruitments'))) true @else false @endif" aria-controls="navbar-forms">
+                             <a class="nav-link @if(str_contains(url()->current(), url('/statusdaftar')) || str_contains(url()->current(), url('/assess'))) active @endif" href="#navbar-dash" data-toggle="collapse" role="button" aria-expanded="@if(str_contains(url()->current(), url('/mitras')) || str_contains(url()->current(), url('/recruitments'))) true @else false @endif" aria-controls="navbar-forms">
                                  <i class="fas fa-home text-primary"></i>
                                  <span class="nav-link-text">Mitra</span>
                              </a>
-                             <div class="collapse @if(str_contains(url()->current(), url('/statuspendaftar')) || str_contains(url()->current(), url('/assess'))) show @endif" id="navbar-dash">
+                             <div class="collapse @if(str_contains(url()->current(), url('/statusdaftar')) || str_contains(url()->current(), url('/assess'))) show @endif" id="navbar-dash">
                                  <ul class="nav nav-sm flex-column">
                                      <li class="nav-item">
                                          <a href="/statusdaftar" class="nav-link @if(str_contains(url()->current(), url('/statusdaftar'))) active @endif">Status Pendaftaran</a>
