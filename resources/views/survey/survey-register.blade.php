@@ -4,9 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="author" content="Creative Tim">
-    <title>Login - Aplikasi Mitra BPS Kabupaten Probolinggo</title>
+    <meta name="author" content="BPS Kabupaten Probolinggo">
+    <title>Pendaftaran {{$survey->name}} - Aplikasi Mitra BPS Kabupaten Probolinggo</title>
     <!-- Favicon -->
     <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
     <!-- Fonts -->
@@ -18,6 +17,7 @@
     <link rel="stylesheet" href="/assets/css/argon.css?v=1.1.0" type="text/css">
     <link rel="stylesheet" href="/assets/style.css" type="text/css">
 
+    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
 </head>
 
 <body class="bg-default">
@@ -61,8 +61,8 @@
                 <div class="header-body text-center mb-6">
                     <div class="row justify-content-center">
                         <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-                            <img src="/assets/img/bps.svg" class="logologin">
-                            <h1 class="text-white">Aplikasi Mitra BPS Kabupaten Probolinggo</h1>
+                            <img src="/assets/img/bps.svg" class="logosurveyregister">
+                            <h2 class="text-white">Aplikasi Mitra BPS Kabupaten Probolinggo</h2>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,11 @@
                     <div class="card bg-secondary border-0 mb-0">
                         <div class="card bg-secondary border-0 mb-0">
                             <div class="card-header bg-transparent pb-5">
-                                <div class="text-muted text-center mt-2 mb-3"><small>Login atau Daftar dengan</small></div>
+                                <div class="text-muted text-center mt-2 mb-3"><small>Anda Akan Melakukan Pendaftaran: </small></div>
+                                <div class="text-muted text-center mt-2 mb-3">
+                                    <span class="badge badge-lg badge-success">{{$survey->name}}</span>
+                                </div>
+                                <div class="text-muted text-center mt-2 mb-3"><small>Sebelum Mendaftar, Anda Harus Login Terlebih Dahulu</small></div>
                                 <div class="btn-wrapper text-center">
                                     <a href="/auth/redirect" class="btn btn-neutral btn-icon btn-block">
                                         <span class="btn-inner--icon"><img src="/assets/img/icons/common/google.svg"></span>
@@ -120,6 +124,21 @@
     <script src="/assets/js/argon.js?v=1.1.0"></script>
     <!-- Demo JS - remove this in your project -->
     <script src="/assets/js/demo.min.js"></script>
+
+    <!-- <script>
+        function handleCredentialResponse(response) {
+            // decodeJwtResponse() is a custom function defined by you
+            // to decode the credential response.
+            const responsePayload = decodeJwtResponse(response.credential);
+
+            console.log("ID: " + responsePayload.sub);
+            console.log('Full Name: ' + responsePayload.name);
+            console.log('Given Name: ' + responsePayload.given_name);
+            console.log('Family Name: ' + responsePayload.family_name);
+            console.log("Image URL: " + responsePayload.picture);
+            console.log("Email: " + responsePayload.email);
+        }
+    </script> -->
 </body>
 
 </html>

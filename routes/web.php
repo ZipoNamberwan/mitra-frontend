@@ -19,11 +19,14 @@ Auth::routes();
 
 Route::get('/auth/redirect', [App\Http\Controllers\Auth\LoginController::class, 'redirect']);
 Route::get('/auth/callback', [App\Http\Controllers\Auth\LoginController::class, 'callback']);
-Route::get('/reg/{email}/{name}', [App\Http\Controllers\Auth\LoginController::class, 'showRegistrationForm']);
-Route::get('/register/village/{id}', [App\Http\Controllers\Auth\LoginController::class, 'getVillage']);
-Route::post('/reg', [App\Http\Controllers\Auth\LoginController::class, 'register']);
+Route::get('/mitra-register/village/{id}', [App\Http\Controllers\Auth\LoginController::class, 'getVillage']);
+Route::get('/mitra-register/{email}/{name}', [App\Http\Controllers\Auth\LoginController::class, 'showRegistrationForm'])->where(['email' => '(.*)', 'name' => '(.*)']);
+Route::post('/mitra-register', [App\Http\Controllers\Auth\LoginController::class, 'register']);
+
+Route::get('/survey-register/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerNotAuthenticated']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/survey-register/auth/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerAuthenticated']);
 });

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
-    <title>Argon Dashboard PRO - Premium Bootstrap 4 Admin Template</title>
+    <title>Pendaftaran - Aplikasi Mitra BPS Kabupaten Probolinggo</title>
     <!-- Favicon -->
     <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
     <!-- Fonts -->
@@ -150,7 +150,7 @@
                         </div>
                         <!-- Card body -->
                         <div class="card-body px-lg-5 py-lg-5">
-                            <form method="POST" action="/reg" enctype="multipart/form-data" autocomplete="off">
+                            <form method="POST" action="/mitra-register" enctype="multipart/form-data" autocomplete="off">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
@@ -357,7 +357,7 @@
             $('#village').append(`<option value="0" disabled selected>Processing...</option>`);
             $.ajax({
                 type: 'GET',
-                url: '/register/village/' + id,
+                url: '/mitra-register/village/' + id,
                 success: function(response) {
                     var response = JSON.parse(response);
                     $('#village').empty();
@@ -373,6 +373,7 @@
                     });
                 }
             });
+            console.log('dadaks;d');
         }
     </script>
 

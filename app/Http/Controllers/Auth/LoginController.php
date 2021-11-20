@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -60,13 +61,22 @@ class LoginController extends Controller
 
         if ($user != null) {
             Auth::login($user, true);
-            return redirect('/home');
+            if (session()->has('survey-mitra-register')) {
+                $survey = session()->has('survey-mitra-register');
+                session()->forget('survey-mitra-register');
+                return redirect('/survey-register/auth/' . $survey);
+            } else {
+                return redirect('/home');
+            }
         } else {
             $key = 'hQQ3cyzRp3obvAnUa29woJ6MchjHawPg'; // 32 chars
             $iv = '8tgsqR86OSSUBC5t'; // 16 chars
             $method = 'aes-256-cbc';
 
-            return redirect('/reg/' . openssl_encrypt($user_google->email, $method, $key, 0, $iv) . '/' . openssl_encrypt($user_google->name, $method, $key, 0, $iv));
+            return redirect('/mitra-register/' .
+                Str::replace('/', '*', openssl_encrypt($user_google->email, $method, $key, 0, $iv))
+                . '/' .
+                Str::replace('/', '*', openssl_encrypt($user_google->name, $method, $key, 0, $iv)));
         }
     }
 
@@ -79,9 +89,9 @@ class LoginController extends Controller
         $iv = '8tgsqR86OSSUBC5t'; // 16 chars
         $method = 'aes-256-cbc';
 
-        return view('survey.register', [
-            'email' => openssl_decrypt($email, $method, $key, 0, $iv),
-            'name' => openssl_decrypt($name, $method, $key, 0, $iv),
+        return view('survey.mitra-register', [
+            'email' => openssl_decrypt(Str::replace('*', '/', $email), $method, $key, 0, $iv),
+            'name' => openssl_decrypt(Str::replace('*', '/', $name), $method, $key, 0, $iv),
             'educations' => Educations::all(),
             'subdistricts' => Subdistricts::all()
         ]);
@@ -153,9 +163,14 @@ class LoginController extends Controller
                 'avatar' => $mitra->photo
             ]);
         }
-
         Auth::login($user, true);
 
-        return redirect('/')->with('success-create', 'Data Mitra telah direkam!');
+        if (session()->has('survey-mitra-register')) {
+            $survey = session()->has('survey-mitra-register');
+            session()->forget('survey-mitra-register');
+            return redirect('/survey-register/auth/' . $survey);
+        } else {
+            return redirect('/home');
+        }
     }
 }
