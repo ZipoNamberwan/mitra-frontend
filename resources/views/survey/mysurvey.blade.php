@@ -7,6 +7,30 @@
     <link rel="stylesheet" href="/assets/vendor/@fortawesome/fontawesome-free/css/fontawesome.min.css" />
     <link rel="stylesheet" href="/assets/vendor/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <style>
+        #customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+    </style>
 @endsection
 
 @section('container')
@@ -46,19 +70,24 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12" id="row-table">
-                                <div class="col-6 mb-0">
-                                    @if (count($mitra->surveys) > 0)
-                                        <p>
-                                            @foreach ($mitra->surveys as $survey)
-                                                {{ $survey->name }},
-                                            @endforeach
-                                        </p>
-                                    @else
-                                        <p>-</p>
-                                    @endif
+                           <div class="col">
+                               <div class="card">
+                                <div class="table-responsive py-4">
+                                    <table class="table" id="datatable-id" width="100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nama Survey</th>
+                                                <th>Tanggal Mulai</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
+                               </div>
+                           </div>
                         </div>
                     </div>
                 </div>
@@ -75,8 +104,22 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12" id="row-table">
-                                @if (count($mitra->surveys) > 0)
+                            <div class="col-12" >
+                                <table border="1" id="customers">
+                                    <tr>
+                                        <th>survey</th>
+                                        <th>Tanggal Mulai</th>
+                                        <th>Tanggal Berakhir</th>
+                                    </tr>
+                                    @foreach($mitra = $currentsurveys as $survey)
+                                    <tr>
+                                        <td> {{ $survey->name }}</td>
+                                        <td>{{ $survey->start_date }}</td>
+                                        <td>{{ $survey->end_date }}</td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                                {{-- @if (count($mitra->surveys) > 0)
                                     @foreach ($mitra = $currentsurveys as $survey)
 
                                         {{ $survey->name }}
@@ -84,8 +127,8 @@
                                     @endforeach
                                 @else
                                     <p>-</p>
-                                @endif
-                            </div>
+                                @endif --}}
+                            
                         </div>
                     </div>
                 </div>
@@ -124,8 +167,13 @@
                 {
                     "responsivePriority": 1,
                     "width": "12%",
-                    "data": "survey_id",
+                    "data": "name",
                 },
+                {
+                    "responsivePriority": 1,
+                    "width": "12%",
+                    "data": "start_date",
+                }
                 
             ],
     

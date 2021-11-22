@@ -113,6 +113,8 @@ class MainController extends Controller
                 $mitraData["rating"] = $survey->avgrating();
                 $surveys = Surveys::find($mitra->pivot->survey_id);
                 $mitraData["survey_id"] = $surveys->name;
+                $mitraData["start_date"] = $surveys->start_date;
+                $mitraData["end_date"] = $surveys->end_date;
                 $status = Statuses::find($mitra->pivot->status_id);
                 $mitraData["status_id"] = $status->name;
                 $mitraData["status_color"] = 'secondary';
