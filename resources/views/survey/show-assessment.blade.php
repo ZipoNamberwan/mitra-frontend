@@ -19,7 +19,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="ni ni-app"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Nilai Mitra</li>
+                            <li class="breadcrumb-item active" aria-current="page">Penilaian Survey</li>
                         </ol>
                     </nav>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Nilai Mitra</h3>
+                            <h3 class="mb-0">Penilaian Survey</h3>
                         </div>
                         
                     </div>
@@ -71,8 +71,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nama Survey</th>
-                                <th>Assessment</th>
-                                <th></th>
+                                <th>Penilaian</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,12 +116,6 @@
                 "width": "5%",
                 "data": "rating",
             },
-            {
-                "responsivePriority": 7,
-                "width": "7%",
-                "orderable": false,
-                "data": "id"
-            }
         ],
         "language": {
             'paginate': {

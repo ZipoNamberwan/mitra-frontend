@@ -19,7 +19,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="ni ni-app"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page"> Status Mitra</li>
+                            <li class="breadcrumb-item active" aria-current="page"> MySurvey</li>
                         </ol>
                     </nav>
                 </div>
@@ -52,13 +52,54 @@
 
     <!-- Table -->
     <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Survey saat ini</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Nama Survey</th>
+                                <th scope="col">Tanggal Mulai</th>
+                                <th scope="col">Tanggal Berakhir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($mitra = $currentsurveys as $survey)
+                            <tr>
+                                <th scope="row">
+                                    {{ $survey->name }}
+                                </th>
+                                <th scope="row">
+                                    {{ $survey->start_date }}
+                                </th>
+                                <th scope="row">
+                                    {{ $survey->end_date }}
+                                </th>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col">
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Status Mitra</h3>
+                            <h3 class="mb-0">Status Survey</h3>
                         </div>
                         
                     </div>
@@ -68,14 +109,50 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>#</th>
-                                <th>Email Mitra</th>
-                                <th>Status Mitra</th>
+                                <th>Nama Suvey</th>
+                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Pengalaman</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                       <div class="col">
+                           <div class="card">
+                            <div class="table-responsive py-4">
+                                <table class="table" id="datatable-idsurvey" width="100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nama Survey</th>
+                                            <th>Tanggal Mulai</th>
+                                            <th>Tanggal Berakhir</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                           </div>
+                       </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,7 +185,7 @@
             {
                 "responsivePriority": 1,
                 "width": "2,5%",
-                "data": "id",
+                "data": "name",
             },
             {
                 "responsivePriority": 1,
@@ -120,6 +197,47 @@
                     }
                     return data;
                 }
+            }
+        ],
+        "language": {
+            'paginate': {
+                'previous': '<i class="fas fa-angle-left"></i>',
+                'next': '<i class="fas fa-angle-right"></i>'
+            }
+        }
+    });
+</script>
+
+<script>
+    var table = $('#datatable-idsurvey').DataTable({
+        "responsive": true,
+        "order": [],
+        "serverSide": true,
+        "processing": true,
+        "ajax": {
+            "url": '/mysurvey-data',
+            "type": 'GET'
+        },
+        "columns": [{
+                "responsivePriority": 8,
+                "width": "2,5%",
+                "orderable": false,
+                "data": "index",
+            }, 
+            {
+                "responsivePriority": 1,
+                "width": "2,5%",
+                "data": "name",
+            },
+            {
+                "responsivePriority": 1,
+                "width": "2,5%",
+                "data": "start_date",
+            },
+            {
+                "responsivePriority": 1,
+                "width": "2,5%",
+                "data": "end_date",
             }
         ],
         "language": {

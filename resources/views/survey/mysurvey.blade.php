@@ -7,35 +7,11 @@
     <link rel="stylesheet" href="/assets/vendor/@fortawesome/fontawesome-free/css/fontawesome.min.css" />
     <link rel="stylesheet" href="/assets/vendor/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-    <style>
-        #customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
-}
-    </style>
 @endsection
 
 @section('container')
 
-    <!-- Header -->
+    {{-- <!-- Header -->
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="header-body">
@@ -134,9 +110,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-@endsection
+{{-- @endsection
 @section('optionaljs')
     <script src="/assets/vendor/datatables2/datatables.min.js"></script>
     <script src="/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>

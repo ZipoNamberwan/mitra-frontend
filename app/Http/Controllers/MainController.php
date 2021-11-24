@@ -25,14 +25,7 @@ class MainController extends Controller
 
     public function showstatusses()
     {
-        return view('survey.show-statusses');
-    }
-
-
-    public function show($id)
-    {
-        //mysurvei logic here
-        $mitra = Mitras::where('email', $id)->first();
+        $mitra = Mitras::where('email')->first();
 
         
         $surveys = Surveys::all();
@@ -62,7 +55,13 @@ class MainController extends Controller
         $label = json_encode($label);
         $total = json_encode($total);
 
-        return view('survey.mysurvey', compact('mitra','currentsurveys'));
+        return view('survey.show-statusses', compact('mitra','currentsurveys'));
+    }
+
+
+    public function show()
+    {
+        return view('survey.mysurvey');
     }
 
     public function data(Request $request)
