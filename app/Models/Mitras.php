@@ -14,7 +14,6 @@ class Mitras extends Model
     protected $guarded = [];
     protected $keyType = 'string';
     public $incrementing = false;
-    use SoftDeletes;
 
     public function educationdetail()
     {
