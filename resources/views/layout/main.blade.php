@@ -184,7 +184,7 @@
                                     <div class="dropdown-header noti-title">
                                         <h6 class="text-overflow m-0">Welcome!</h6>
                                     </div>
-                                    <a href="#!" class="dropdown-item">
+                                    <a href="/view" class="dropdown-item">
                                         <i class="ni ni-single-02"></i>
                                         <span>Profile</span>
                                     </a>
