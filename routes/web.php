@@ -30,5 +30,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/survey-register/auth/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerAuthenticated']);
-    Route::get('/view', [App\Http\Controllers\ViewController::class, 'show']);
+    Route::get('/view', [App\Http\Controllers\ViewController::class, 'show']); 
 });

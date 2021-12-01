@@ -22,7 +22,6 @@ class SurveyRegistrationController extends Controller
         } else {
             $request->session()->forget('survey-mitra-register');
             $request->session()->put('survey-mitra-register', $survey);
-
             if (Auth::user() == null) {
                 return view('survey.survey-register', ['survey' => $survey]);
             } else {
