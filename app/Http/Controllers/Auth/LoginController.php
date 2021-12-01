@@ -62,9 +62,9 @@ class LoginController extends Controller
         if ($user != null) {
             Auth::login($user, true);
             if (session()->has('survey-mitra-register')) {
-                $survey = session()->has('survey-mitra-register');
+                $survey = session()->get('survey-mitra-register');
                 session()->forget('survey-mitra-register');
-                return redirect('/survey-register/auth/' . $survey);
+                return redirect('/survey-register/auth/' . $survey->id);
             } else {
                 return redirect('/home');
             }
@@ -166,9 +166,9 @@ class LoginController extends Controller
         Auth::login($user, true);
 
         if (session()->has('survey-mitra-register')) {
-            $survey = session()->has('survey-mitra-register');
+            $survey = session()->get('survey-mitra-register');
             session()->forget('survey-mitra-register');
-            return redirect('/survey-register/auth/' . $survey);
+            return redirect('/survey-register/auth/' . $survey->id);
         } else {
             return redirect('/home');
         }
