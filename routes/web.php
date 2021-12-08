@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/mysurvey-data', [App\Http\Controllers\MainController::class, 'data']);
+Route::get('/assess', [App\Http\Controllers\MainController::class, 'showasses']);
+Route::get('/statusdaftar', [App\Http\Controllers\MainController::class, 'showstatusses']);
 
 Auth::routes();
 
@@ -29,4 +33,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/survey-register/auth/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerAuthenticated']);
+    Route::resources(['dash'=> MainController::class]);
 });
