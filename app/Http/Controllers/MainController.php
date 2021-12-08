@@ -18,6 +18,12 @@ class MainController extends Controller
 
     }
 
+    public function profile()
+    {
+        $mitra = Mitras::where('email', Auth::user()->email)->first();
+        return view('view', compact('mitra'));
+    }
+
     public function showAssessment()
     {
 

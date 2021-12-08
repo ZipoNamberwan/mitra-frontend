@@ -33,5 +33,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mysurvey-data', [App\Http\Controllers\MainController::class, 'data']);
     Route::get('/survey-assesment', [App\Http\Controllers\MainController::class, 'showAssessment']);
     Route::get('/home', [App\Http\Controllers\MainController::class, 'home']);
-    Route::get('/view', [App\Http\Controllers\ViewController::class, 'show']);
+    Route::get('/profile', [App\Http\Controllers\MainController::class, 'profile']);
 });

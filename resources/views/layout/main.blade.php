@@ -75,7 +75,7 @@
                     <!-- Divider -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link @if(str_contains(url()->current(), url('/profile'))) active @endif" href="/download">
+                            <a class="nav-link @if(str_contains(url()->current(), url('/profile'))) active @endif" href="/profile">
                                 <i class="ni ni-circle-08 text-success"></i>
                                 <span class="nav-link-text">Profile</span>
                             </a>
