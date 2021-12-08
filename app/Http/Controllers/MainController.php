@@ -21,13 +21,12 @@ class MainController extends Controller
     public function profile()
     {
         $mitra = Mitras::where('email', Auth::user()->email)->first();
-        return view('view', compact('mitra'));
+        return view('profile', compact('mitra'));
     }
 
     public function showAssessment()
     {
-
-        return view('survey.show-assessment');
+        return view('survey.assessment');
     }
 
     public function home()
@@ -61,11 +60,6 @@ class MainController extends Controller
         $total = json_encode($total);
 
         return view('survey.home', compact('mitra', 'currentsurveys'));
-    }
-
-    public function show()
-    {
-        return view('survey.mysurvey');
     }
 
     public function data(Request $request)

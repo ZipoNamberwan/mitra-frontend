@@ -39,10 +39,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/survey-assesment', [App\Http\Controllers\MainController::class, 'showAssessment']);
     Route::get('/home', [App\Http\Controllers\MainController::class, 'home']);
     Route::get('/profile', [App\Http\Controllers\MainController::class, 'profile']);
-    
-    Route::get('/mitra-view', [App\Http\Controllers\ProfileController::class, 'show']);
-
-    Route::resources([
-        'mitras' => ProfileController::class
-    ]);
+    Route::get('/profile/{mitra}/edit ', [App\Http\Controllers\ProfileController::class, 'edit']);
+    Route::put('/profile/{mitra}', [App\Http\Controllers\ProfileController::class, 'update']);
 });

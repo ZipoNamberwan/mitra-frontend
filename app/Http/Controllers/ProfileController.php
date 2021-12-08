@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function index()
-    {
-        return view('mitra.mitra-view');
-    }
 
     public function edit()
     {
@@ -30,6 +26,7 @@ class ProfileController extends Controller
             ]
         );
     }
+    
     public function getVillage($id)
     {
         return json_encode(Villages::where('subdistrict', $id)->get());
@@ -87,7 +84,7 @@ class ProfileController extends Controller
             ]);
             $user->update($data);
         }
-        
+
         return redirect('/mitra-view')->with('success-create', 'Data Mitra telah direkam!');
     }
     public function show()
