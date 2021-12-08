@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 
@@ -32,4 +33,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mysurvey-data', [App\Http\Controllers\MainController::class, 'data']);
     Route::get('/survey-assesment', [App\Http\Controllers\MainController::class, 'showAssessment']);
     Route::get('/home', [App\Http\Controllers\MainController::class, 'home']);
+    Route::get('/view', [App\Http\Controllers\ViewController::class, 'show']);
 });
