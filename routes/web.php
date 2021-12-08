@@ -15,9 +15,6 @@ use App\Http\Controllers\MainController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/mysurvey-data', [App\Http\Controllers\MainController::class, 'data']);
-Route::get('/assess', [App\Http\Controllers\MainController::class, 'showasses']);
-Route::get('/statusdaftar', [App\Http\Controllers\MainController::class, 'showstatusses']);
 
 Auth::routes();
 
@@ -30,8 +27,9 @@ Route::post('/mitra-register', [App\Http\Controllers\Auth\LoginController::class
 Route::get('/survey-register/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerNotAuthenticated']);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [App\Http\Controllers\MainController::class, 'home']);
     Route::get('/survey-register/auth/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerAuthenticated']);
-    Route::resources(['dash'=> MainController::class]);
+    Route::get('/mysurvey-data', [App\Http\Controllers\MainController::class, 'data']);
+    Route::get('/survey-assesment', [App\Http\Controllers\MainController::class, 'showAssessment']);
+    Route::get('/home', [App\Http\Controllers\MainController::class, 'home']);
 });
