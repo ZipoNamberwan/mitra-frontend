@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SurveyRegistrationController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +27,14 @@ Route::post('/mitra-register', [App\Http\Controllers\Auth\LoginController::class
 
 Route::get('/survey-register/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerNotAuthenticated']);
 
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/survey-register/auth/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerAuthenticated']);
+    Route::get('/mitras/village/{id}', [App\Http\Controllers\SurveyRegistrationController::class, 'getVillage']);
+    Route::post('/survey-register/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerSurvey']);
+    Route::get('/survey/success', [App\Http\Controllers\SurveyRegistrationController::class, 'registerSurveySuccess']);
+
+    
 });
