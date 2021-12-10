@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="/assets/css/stepper.css">
+    <link rel="stylesheet" href="/assets/css/toogle.css">
     <link rel="stylesheet" href="/assets/vendor/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="/assets/css/container.css">
     <link rel="stylesheet" href="/assets/css/text.css">
@@ -21,7 +22,6 @@
                     <p>Silahkan periksa kembali kesesuaian data mitra</p>
                     <div class="row">
                         <div class="col-md-12 mx-0">
-
                             <form id="msform" action="/survey-register/{{ $survey->id }}" method="POST"
                                 enctype="multipart/form-data" autocomplete="off">
                                 @csrf
@@ -31,7 +31,7 @@
                                     <li id="personal"><strong>Nomor Handphone</strong></li>
                                     <li id="confirm"><strong>Selesai</strong></li>
                                 </ul> <!-- fieldsets -->
-                                <fieldset>
+                                {{-- <fieldset>
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col">
@@ -42,7 +42,6 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-md-6">
-
                                                                     <div class="col-md-14 mb-3">
                                                                         <label class="form-control-label"
                                                                             for="validationCustom03">Nama Lengkap*</label>
@@ -109,7 +108,6 @@
                                                                             <label class="custom-control-label"
                                                                                 for="sex_radio1">Laki-laki</label>
                                                                         </div>
-
                                                                         <div class="custom-control custom-radio mb-3">
                                                                             <input name="sex" class="custom-control-input"
                                                                                 id="sex_radio2" value="P" type="radio"
@@ -193,8 +191,7 @@
                                                                         <label class="form-control-label">Desa*</label>
                                                                         <select id="village" name="village"
                                                                             class="form-control" data-toggle="select"
-                                                                            name="village">
-                                                                        </select>
+                                                                            name="village"> </select>
                                                                     </div>
                                                                     @error('village')
                                                                         <div class="text-valid">
@@ -209,23 +206,54 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <input type="button" name="next" class="next action-button-next" value="Next Step" />
-                                </fieldset>
+                                </fieldset> --}}
                                 <fieldset>
-                                    {{-- <div class="col-md-6">
-                                        <div class="col-md-14 mb-3">
-                                            <label class="form-control-label">Silahkan pilih nomor handphone anda :</label>
-                                            <select name="education" class="form-control" data-toggle="select">
-                                                <option value="0" disabled selected>Pilih Nomor HP</option>
-                                                @foreach ($phonenumbers as $phone)
-                                                    <option value="{{ $education->id }}"
-                                                        {{ old('phone', $mitra->education) == $education->id ? 'selected' : '' }}>
-                                                        {{ $education->name }}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-md-6">
+                                                <div class="col-md-14 mb-3">
+                                                    <label class="form-control-label">Silahkan pilih nomor handphone anda
+                                                        :</label>
+                                                    <select name="education" class="form-control" data-toggle="select">
+                                                        <option value="0" disabled selected>Pilih Nomor HP</option>
+                                                        @foreach ( $phone_numbers as $phone_number)
+                                                            <option value="{{ $phone_number->id }}">
+                                                                {{ $phone_number->phone }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <br>
+
+                                                    <div class="form-group">
+                                                        <label for="member" class="form-control-label">Input Nomor baru
+                                                        </label>
+                                                        
+                                                            <div class="btn-group">
+                                                                <button type="button"
+                                                                    class="btn-5 btn-default btn-switch activate-toggle active">
+                                                                    <span class="goods">Ya</span>
+                                                                </button>
+                                                                <div class="btn-group">
+                                                                    <button type="button"
+                                                                        class="btn-5 btn-default btn-switch remove-toggle"><span
+                                                                            class="services">Tidak</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                    </div>
+
+                                                    <div class="wrap">
+                                                        
+                                                            <label for="lastname" class="col-md-5 col-sm-12 control-label">Qualification type</label>
+                                                                <div class="col-lg-7 col-md-7 col-sm-12 form-input">
+                                                                    <input type="number" class="form-control input-std" id="phone" name="phone">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                     <input type="button" name="previous" class="previous action-button-previous"
                                         value="Previous" />
                                     <input type="button" name="next" class="next action-button-next" value="Next Step" />
@@ -273,7 +301,8 @@
                                     <p>Anda akan mengikuti survey {{ $survey->name }} <br> nomor handphone
                                         @foreach ($mitra->phonenumbers->where('is_main', '=', 1) as $phone)
                                             {{ $phone->phone }},
-                                        @endforeach</p>
+                                        @endforeach
+                                    </p>
 
                                     <input type="button" name="previous" class="previous action-button-previous"
                                         value="Previous" />
@@ -289,6 +318,7 @@
 @endsection
 @section('optionaljs')
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
@@ -296,6 +326,22 @@
     <script src="/assets/vendor/js-cookie/js.cookie.js"></script>
     <script src="/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+
+    <script>
+        $('.btn-switch').click(function() {
+            var $group = $(this).closest('.form-group');
+            $('.btn-switch', $group).removeClass("active");
+            $(this).addClass("active");
+        });
+
+        $(".activate-toggle").click(function() {
+            $(".wrap").fadeToggle();
+        });
+
+        $(".remove-toggle").click(function() {
+            $(".wrap").hide();
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -374,6 +420,29 @@
             })
 
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("checkbox").change(function() {
+                $("inputan").toggle();
+            });
+        });
+    </script>
+
+    <script>
+        function previewPhoto() {
+            var photolabel = document.getElementById('photolabel');
+            const photo = document.querySelector('#photo');
+            const imgPreview = document.querySelector('.img-preview');
+            imgPreview.style.display = 'block';
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(photo.files[0]);
+            photolabel.innerText = photo.files[0].name;
+            oFReader.onload = function(OFREvent) {
+                imgPreview.src = OFREvent.target.result;
+            }
+        }
     </script>
 
     <script>

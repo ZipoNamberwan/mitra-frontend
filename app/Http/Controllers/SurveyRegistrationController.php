@@ -41,9 +41,12 @@ class SurveyRegistrationController extends Controller
     {
         $survey = Surveys::find($request->survey);
         $mitra = Mitras::find(Auth::user()->email);
-        return view('survey.survey-register-auth', compact('mitra'), [
-            'survey' => $survey, 'educations' => Educations::all(),
-            'subdistricts' => Subdistricts::all()
+        return view('survey.survey-register-auth', compact('mitra'), 
+        [
+            'survey' => $survey, 
+            'educations' => Educations::all(),
+            'subdistricts' => Subdistricts::all(),
+            'phone_numbers' => $mitra->phonenumbers
         ]);
     }
 
