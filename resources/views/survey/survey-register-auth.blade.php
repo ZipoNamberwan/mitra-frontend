@@ -27,7 +27,7 @@
                                 <li id="personal"><strong>Isi No HP</strong></li>
                                 <li id="confirm"><strong>Konfirmasi</strong></li>
                             </ul>
-                            <fieldset>
+                            <fieldset id="mitra-info-form">
                                 <div class="card-wrapper">
                                     <!-- Custom form validation -->
                                     <div class="card">
@@ -70,7 +70,7 @@
                                                         <div class="form-group">
                                                             <label class="form-control-label" for="exampleDatepicker">Tanggal
                                                                 Lahir*</label>
-                                                            <input name="birthdate" class="form-control @error('birthdate') is-invalid @enderror" placeholder="Select date" type="date" value="{{ @old('birthdate', $mitra->birthdate) }}">
+                                                            <input name="birthdate" id="birthdate" class="form-control @error('birthdate') is-invalid @enderror" placeholder="Select date" type="date" value="{{ @old('birthdate', $mitra->birthdate) }}">
                                                             @error('birthdate')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
@@ -116,7 +116,7 @@
                                                     </div>
                                                     <div class="col-md-12 mb-3">
                                                         <label class="form-control-label" for="validationCustom03">Profesi*</label>
-                                                        <input type="text" name="profession" class="form-control @error('profession') is-invalid @enderror" id="validationCustom03" value="{{ @old('profession', $mitra->profession) }}">
+                                                        <input type="text" name="profession" class="form-control @error('profession') is-invalid @enderror" id="profession" value="{{ @old('profession', $mitra->profession) }}">
                                                         @error('profession')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -125,7 +125,7 @@
                                                     </div>
                                                     <div class="col-md-12 mb-3">
                                                         <label class="form-control-label" for="validationCustom03">Alamat*</label>
-                                                        <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" id="validationCustom03" value="{{ @old('address', $mitra->address) }}">
+                                                        <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" id="address" value="{{ @old('address', $mitra->address) }}">
                                                         @error('address')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -166,7 +166,7 @@
                                 </div>
                                 <input type="button" name="next" class="next btn btn-primary" value="Selanjutnya" />
                             </fieldset>
-                            <fieldset>
+                            <fieldset id="phone-form">
                                 <div class="card-wrapper">
                                     <div class="card">
                                         <div class="card-header">
@@ -182,8 +182,11 @@
                                                         <option value="{{ $phone->id }}">{{ $phone->phone }}</option>
                                                         @endforeach
                                                     </select>
+                                                    <div id="phone-invalid" class="text-valid mt-1" style="display: none;">
+                                                        No HP belum dipilih
+                                                    </div>
                                                     @error('phone')
-                                                    <div class="invalid-feedback">
+                                                    <div class="text-valid mt-1">
                                                         {{ $message }}
                                                     </div>
                                                     @enderror
@@ -220,7 +223,7 @@
                                 <input type="button" name="previous" class="previous btn btn-secondary" value="Kembali" />
                                 <input type="button" name="next" class="next btn btn-primary" value="Selanjutnya" />
                             </fieldset>
-                            <fieldset>
+                            <fieldset id="confirmation-form">
                                 <div class="card">
                                     <div class="card-header">
                                         <h3>Konfimasi Data</h3>
@@ -286,29 +289,80 @@
             current_fs = $(this).parent();
             next_fs = $(this).parent().next();
 
-            //Add Class Active
-            $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+            // console.log('current ' + current_fs.attr('id'));
+            // console.log('prev ' + previous_fs.attr('id'));
 
-            //show the next fieldset
-            next_fs.show();
-            //hide the current fieldset with style
-            current_fs.animate({
-                opacity: 0
-            }, {
-                step: function(now) {
-                    // for making fielset appear animation
-                    opacity = 1 - now;
+            var valid = true;
+            if (current_fs.attr('id') == 'mitra-info-form') {
+                if (document.getElementById('name').value == '') {
+                    valid = false;
+                    document.getElementById('name').classList.add("is-invalid");
+                } else {
+                    document.getElementById('name').classList.remove("is-invalid");
+                }
+                if (document.getElementById('address').value == '') {
+                    valid = false;
+                    document.getElementById('address').classList.add("is-invalid");
+                } else {
+                    document.getElementById('address').classList.remove("is-invalid");
+                }
+                if (document.getElementById('profession').value == '') {
+                    valid = false;
+                    document.getElementById('profession').classList.add("is-invalid");
+                } else {
+                    document.getElementById('profession').classList.remove("is-invalid");
+                }
+                if (document.getElementById('birthdate').value == '') {
+                    valid = false;
+                    document.getElementById('birthdate').classList.add("is-invalid");
+                } else {
+                    document.getElementById('birthdate').classList.remove("is-invalid");
+                }
+            } else if (current_fs.attr('id') == 'phone-form') {
+                if (document.getElementById('toggle-phone').checked) {
+                    if (document.getElementById('newphone').value == '') {
+                        valid = false;
+                        document.getElementById('newphone').classList.add("is-invalid");
+                    } else {
+                        document.getElementById('newphone').classList.remove("is-invalid");
+                    }
+                    document.getElementById('phone-invalid').style.display = 'none';
+                } else {
+                    if (document.getElementById('phone').value == '0') {
+                        valid = false;
+                        document.getElementById('phone-invalid').style.display = 'block';
+                    } else {
+                        document.getElementById('phone-invalid').style.display = 'none';
+                    }
+                    document.getElementById('newphone').classList.remove("is-invalid");
+                }
+            }
 
-                    current_fs.css({
-                        'display': 'none',
-                        'position': 'relative'
-                    });
-                    next_fs.css({
-                        'opacity': opacity
-                    });
-                },
-                duration: 600
-            });
+            if (valid) {
+                //Add Class Active
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+                //show the next fieldset
+                next_fs.show();
+                //hide the current fieldset with style
+                current_fs.animate({
+                    opacity: 0
+                }, {
+                    step: function(now) {
+                        // for making fielset appear animation
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        next_fs.css({
+                            'opacity': opacity
+                        });
+                    },
+                    duration: 600
+                });
+            }
         });
 
         $(".previous").click(function() {
