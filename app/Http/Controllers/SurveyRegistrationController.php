@@ -27,36 +27,41 @@ class SurveyRegistrationController extends Controller
             return abort(404);
         } else {
             $request->session()->forget('survey-mitra-register');
-            $request->session()->put('survey-mitra-register', $survey);
+            $request->session()->put('survey-mitra-register', $request->survey);
             if (Auth::user() == null) {
                 return view('survey.survey-register', ['survey' => $survey]);
             } else {
-                return redirect('/survey-register/auth/' . $survey->id);
+                return redirect('/survey-register/auth/' . $request->survey);
             }
         }
     }
 
     public function registerAuthenticated(Request $request)
     {
-        $survey = Surveys::find($request->survey);
-        $mitra = Mitras::find(Auth::user()->email);
-        if ($mitra->surveys()->where('surveys.id', $request->survey)->exists()) {
-            return view('survey.survey-register-success', ['survey' => $survey]);
+        $key = 'hQQ3cyzRp3obvAnUa29woJ6MchjHawPg'; // 32 chars
+        $iv = '8tgsqR86OSSUBC5t'; // 16 chars
+        $method = 'aes-256-cbc';
+
+        $survey = Surveys::find(openssl_decrypt(Str::replace('*', '/', $request->survey), $method, $key, 0, $iv));
+
+        if ($survey == null) {
+            abort(404);
         } else {
-            return view('survey.survey-register-auth', compact('mitra'), [
-                'survey' => $survey, 'educations' => Educations::all(),
-                'subdistricts' => Subdistricts::all()
-            ]);
+            $mitra = Mitras::find(Auth::user()->email);
+            if ($mitra->surveys()->where('surveys.id', $survey->id)->exists()) {
+                return view('survey.survey-register-success', ['survey' => $survey]);
+            } else {
+                return view('survey.survey-register-auth', compact('mitra'), [
+                    'survey' => $survey, 'educations' => Educations::all(),
+                    'subdistricts' => Subdistricts::all()
+                ]);
+            }
         }
     }
 
     public function getVillage($id)
     {
         return json_encode(Villages::where('subdistrict', $id)->get());
-    }
-
-    public function register()
-    {
     }
 
     public function registerSurvey(Request $request, $survey)

@@ -64,7 +64,7 @@ class LoginController extends Controller
             if (session()->has('survey-mitra-register')) {
                 $survey = session()->get('survey-mitra-register');
                 session()->forget('survey-mitra-register');
-                return redirect('/survey-register/auth/' . $survey->id);
+                return redirect('/survey-register/auth/' . $survey);
             } else {
                 return redirect('/home');
             }
@@ -111,7 +111,6 @@ class LoginController extends Controller
      */
     public function register(Request $request)
     {
-
         $this->validate($request, [
             'email' => 'required|email|unique:mitras,email|unique:users,email',
             'phone' => 'required',
@@ -168,7 +167,7 @@ class LoginController extends Controller
         if (session()->has('survey-mitra-register')) {
             $survey = session()->get('survey-mitra-register');
             session()->forget('survey-mitra-register');
-            return redirect('/survey-register/auth/' . $survey->id);
+            return redirect('/survey-register/auth/' . $survey);
         } else {
             return redirect('/home');
         }

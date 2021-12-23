@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    public function show()
+    {
+        $mitra = Mitras::where('email', Auth::user()->email)->first();
+        return view('mitra.mitra-view', compact('mitra'));
+    }
 
     public function edit()
     {
@@ -26,16 +31,10 @@ class ProfileController extends Controller
             ]
         );
     }
-    
-    public function getVillage($id)
-    {
-        return json_encode(Villages::where('subdistrict', $id)->get());
-    }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'email' => 'required|email',
             'name' => 'required',
             'sex' => 'required',
             'education' => 'required',
@@ -54,7 +53,6 @@ class ProfileController extends Controller
 
         $mitra = Mitras::where('email', $id)->first();
         $data = ([
-            'email' => $request->email,
             'name' => $request->name,
             'nickname' => $request->nickname,
             'sex' => $request->sex,
@@ -72,24 +70,22 @@ class ProfileController extends Controller
         if ($user == null) {
             $user = User::create([
                 'name' => $request->name,
-                'email' => $request->email,
                 'password' => '',
                 'avatar' => $mitra->photo
             ]);
         } else {
             $data = ([
-                'email' => $request->email,
                 'name' => $request->name,
                 'avatar' => $mitra->photo,
             ]);
             $user->update($data);
         }
 
-        return redirect('/mitra-view')->with('success-create', 'Data Mitra telah direkam!');
+        return redirect('/profile')->with('success-create', 'Biodata Sudah Diupdate!');
     }
-    public function show()
+
+    public function getVillage($id)
     {
-        $mitra = Mitras::where('email', Auth::user()->email)->first();
-        return view('mitra.mitra-view', compact('mitra'));
+        return json_encode(Villages::where('subdistrict', $id)->get());
     }
 }

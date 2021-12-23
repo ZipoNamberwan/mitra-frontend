@@ -97,7 +97,7 @@
         "serverSide": true,
         "processing": true,
         "ajax": {
-            "url": '/mysurvey-data',
+            "url": '/assessment-data',
             "type": 'GET'
         },
         "columns": [{

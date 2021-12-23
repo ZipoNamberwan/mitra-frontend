@@ -34,7 +34,7 @@
                     </div>
                     <!-- Card body -->
                     <div class="card-body">
-                        <form method="POST" action="/mitras/{{ $mitra->email }}" enctype="multipart/form-data" autocomplete="off">
+                        <form method="POST" action="/profile/{{ $mitra->email }}" enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             @method('PUT')
                             <div class="row">
