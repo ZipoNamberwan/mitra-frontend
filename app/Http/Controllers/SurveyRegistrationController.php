@@ -119,11 +119,12 @@ class SurveyRegistrationController extends Controller
             ]);
             $user->update($data);
         }
-        return view('survey.survey-register-success');
+        return redirect('/survey/success');
     }
 
-    public function registerSurveySuccess()
+    public function registerSurveySuccess(Request $request)
     {
         return view('survey.survey-register-success');
+       
     }
 }
