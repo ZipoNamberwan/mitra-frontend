@@ -10,8 +10,6 @@
 @endsection
 
 @section('container')
-
-
 <!-- MultiStep Form -->
 <div class="container-fluid" id="grad1">
     <div class="row mt-0">
@@ -336,6 +334,8 @@
                     }
                     document.getElementById('newphone').classList.remove("is-invalid");
                 }
+            } else {
+                valid = false;
             }
 
             if (valid) {

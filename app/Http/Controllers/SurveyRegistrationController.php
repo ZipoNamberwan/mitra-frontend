@@ -41,18 +41,19 @@ class SurveyRegistrationController extends Controller
     {
         $survey = Surveys::find($request->survey);
         $mitra = Mitras::find(Auth::user()->email);
-        return view('survey.survey-register-auth', compact('mitra'), [
-            'survey' => $survey, 'educations' => Educations::all(),
-            'subdistricts' => Subdistricts::all()
-        ]);
+        if ($mitra->surveys()->where('surveys.id', $request->survey)->exists()) {
+            return view('survey.survey-register-success', ['survey' => $survey]);
+        } else {
+            return view('survey.survey-register-auth', compact('mitra'), [
+                'survey' => $survey, 'educations' => Educations::all(),
+                'subdistricts' => Subdistricts::all()
+            ]);
+        }
     }
 
     public function getVillage($id)
     {
         return json_encode(Villages::where('subdistrict', $id)->get());
-
-
-        // Mitras::find(Auth::user()->email);
     }
 
     public function register()
@@ -61,65 +62,55 @@ class SurveyRegistrationController extends Controller
 
     public function registerSurvey(Request $request, $survey)
     {
-        $request->validate([
-            'name' => 'required',
-            'sex' => 'required',
-            'education' => 'required',
-            'birthdate' => 'required',
-            'profession' => 'required',
-            'address' => 'required',
-            'village' => 'required',
-            'subdistrict' => 'required'
-        ]);
-
-        $path = '';
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $path = $image->store('images', 'public');
-        }
-
-        $mitra = Mitras::find(Auth::user()->email);
-        $data = ([
-            'name' => $request->name,
-            'nickname' => $request->nickname,
-            'sex' => $request->sex,
-            'photo' => $path == '' ? $mitra->photo : $path,
-            'education' => $request->education,
-            'birthdate' => $request->birthdate,
-            'profession' => $request->profession,
-            'address' => $request->address,
-            'village' => $request->village,
-            'subdistrict' => $request->subdistrict
-        ]);
-        $mitra->update($data);
-
-        PhoneNumbers::create([
-            'phone' => $request->phone,
-            'is_main' => true,
-            'mitra_id' => $mitra->email
-        ]);
-
-        $mitra = Mitras::find(Auth::user()->email);
-        $pivotarray = [];
-        $data =  $request->id;
-            $pivotarray[$data] = ['phone_survey' => $request->phone, 'status_id' => 1, 'survey_id' => $request->survey];
-        $mitra->surveys()->syncWithoutDetaching($pivotarray);
-
-        $user = User::where('email', Auth::user()->email)->first();
-        if ($user == null) {
-            $user = User::create([
-                'name' => $request->name,
-                'password' => '',
-                'avatar' => $mitra->photo
-            ]);
+        $mitra = Mitras::where('email', Auth::user()->email)->first();
+        $survey = Surveys::find($survey);
+        if ($mitra->surveys()->where('surveys.id', $request->survey)->exists()) {
+            return view('survey.survey-register-success', ['survey' => $survey]);
         } else {
+
+            $request->validate([
+                'name' => 'required',
+                'sex' => 'required',
+                'education' => 'required',
+                'birthdate' => 'required',
+                'profession' => 'required',
+                'address' => 'required',
+                'village' => 'required',
+                'subdistrict' => 'required',
+                'phoneregistered' => 'required'
+            ]);
+
+            $path = '';
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $path = $image->store('images', 'public');
+            }
+
+            $data = ([
+                'name' => $request->name,
+                'nickname' => $request->nickname,
+                'sex' => $request->sex,
+                'photo' => $path == '' ? $mitra->photo : $path,
+                'education' => $request->education,
+                'birthdate' => $request->birthdate,
+                'profession' => $request->profession,
+                'address' => $request->address,
+                'village' => $request->village,
+                'subdistrict' => $request->subdistrict
+            ]);
+            $mitra->update($data);
+
+            $user = User::where('email', Auth::user()->email)->first();
             $data = ([
                 'name' => $request->name,
                 'avatar' => $mitra->photo,
             ]);
             $user->update($data);
+
+            $mitra->surveys()->attach($survey, ['status_id' => 1, 'phone_survey' => $request->phoneregistered]);
+
+            return view('survey.survey-register-success', ['survey' => $survey]);
         }
-        return view('survey.survey-register-success');
     }
 
     public function registerSurveySuccess()
