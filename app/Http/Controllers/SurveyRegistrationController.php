@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Educations;
+use App\Models\Mitras;
+use App\Models\PhoneNumbers;
+use App\Models\Subdistricts;
 use App\Models\Surveys;
+use App\Models\User;
+use App\Models\Villages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -33,10 +39,81 @@ class SurveyRegistrationController extends Controller
     public function registerAuthenticated(Request $request)
     {
         $survey = Surveys::find($request->survey);
-        return view('survey.survey-register-auth', ['survey' => $survey]);
+        $mitra = Mitras::find(Auth::user()->email);
+        if ($mitra->surveys()->where('surveys.id', $request->survey)->exists()) {
+            return view('survey.survey-register-success', ['survey' => $survey]);
+        } else {
+            return view('survey.survey-register-auth', compact('mitra'), [
+                'survey' => $survey, 'educations' => Educations::all(),
+                'subdistricts' => Subdistricts::all()
+            ]);
+        }
+    }
+
+    public function getVillage($id)
+    {
+        return json_encode(Villages::where('subdistrict', $id)->get());
     }
 
     public function register()
     {
+    }
+
+    public function registerSurvey(Request $request, $survey)
+    {
+        $mitra = Mitras::where('email', Auth::user()->email)->first();
+        $survey = Surveys::find($survey);
+        if ($mitra->surveys()->where('surveys.id', $request->survey)->exists()) {
+            return view('survey.survey-register-success', ['survey' => $survey]);
+        } else {
+
+            $request->validate([
+                'name' => 'required',
+                'sex' => 'required',
+                'education' => 'required',
+                'birthdate' => 'required',
+                'profession' => 'required',
+                'address' => 'required',
+                'village' => 'required',
+                'subdistrict' => 'required',
+                'phoneregistered' => 'required'
+            ]);
+
+            $path = '';
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $path = $image->store('images', 'public');
+            }
+
+            $data = ([
+                'name' => $request->name,
+                'nickname' => $request->nickname,
+                'sex' => $request->sex,
+                'photo' => $path == '' ? $mitra->photo : $path,
+                'education' => $request->education,
+                'birthdate' => $request->birthdate,
+                'profession' => $request->profession,
+                'address' => $request->address,
+                'village' => $request->village,
+                'subdistrict' => $request->subdistrict
+            ]);
+            $mitra->update($data);
+
+            $user = User::where('email', Auth::user()->email)->first();
+            $data = ([
+                'name' => $request->name,
+                'avatar' => $mitra->photo,
+            ]);
+            $user->update($data);
+
+            $mitra->surveys()->attach($survey, ['status_id' => 1, 'phone_survey' => $request->phoneregistered]);
+
+            return view('survey.survey-register-success', ['survey' => $survey]);
+        }
+    }
+
+    public function registerSurveySuccess()
+    {
+        return view('survey.survey-register-success');
     }
 }

@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SurveyRegistrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +34,7 @@ Route::get('/mitras/village/{id}', [App\Http\Controllers\ProfileController::clas
 
 Route::get('/survey-register/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerNotAuthenticated']);
 
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\MainController::class, 'home']);
     Route::get('/survey-register/auth/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerAuthenticated']);
@@ -41,4 +44,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [App\Http\Controllers\MainController::class, 'profile']);
     Route::get('/profile/{mitra}/edit ', [App\Http\Controllers\ProfileController::class, 'edit']);
     Route::put('/profile/{mitra}', [App\Http\Controllers\ProfileController::class, 'update']);
+    Route::get('/mitras/village/{id}', [App\Http\Controllers\SurveyRegistrationController::class, 'getVillage']);
+    Route::post('/survey-register/{survey}', [App\Http\Controllers\SurveyRegistrationController::class, 'registerSurvey']);
+    Route::get('/survey/success', [App\Http\Controllers\SurveyRegistrationController::class, 'registerSurveySuccess']);
+    
 });
