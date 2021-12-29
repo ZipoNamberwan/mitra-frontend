@@ -102,9 +102,7 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-first-name">No HP</label>
                                     <p>
-                                        @foreach ($mitra->phonenumbers as $phone)
-                                        {{ $phone->phone }},
-                                        @endforeach
+                                        {{$mitra->phonenumbers->implode('phone', '; ')}}
                                     </p>
                                 </div>
                             </div>

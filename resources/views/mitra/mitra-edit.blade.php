@@ -29,7 +29,7 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-2">Ubah Mitra</h3>
+                        <h3 class="mb-2">Ubah Biodata</h3>
                         <p class="mb-0"><small>*Wajib Diisi</small></p>
                     </div>
                     <!-- Card body -->

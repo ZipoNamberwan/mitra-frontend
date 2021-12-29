@@ -111,6 +111,14 @@ class SurveyRegistrationController extends Controller
             ]);
             $user->update($data);
 
+            if ($mitra->phonenumbers->where('phone', $request->phoneregistered)->first() == null) {
+                PhoneNumbers::create([
+                    'phone' => $request->phoneregistered,
+                    'is_main' => true,
+                    'mitra_id' => Auth::user()->email
+                ]);
+            }
+
             $mitra->surveys()->attach($survey, ['status_id' => 1, 'phone_survey' => $request->phoneregistered]);
 
             return view('survey.survey-register-success', ['survey' => $survey]);
